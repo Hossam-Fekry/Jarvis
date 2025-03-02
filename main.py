@@ -6,14 +6,15 @@ import os
 import time
 import re
 import operator
+from pynput.keyboard import Controller, Key
 
 bot_name = None
 user_name = None
 
+keyboard = Controller()
 engine = pyttsx3.init()
 engine.setProperty('rate', 150)
 engine.setProperty('volume', 1)
-
 voices = engine.getProperty('voices')
 
 def speak(text):
@@ -42,6 +43,24 @@ def listen():
             response = "There was an error with the speech recognition service."
             speak(response)
             return None
+
+def increase_volume(query):
+    query = int(query)
+    if query % 2 == 0:
+        for i in range(query):
+            keyboard.press(Key.media_volume_up)
+            time.sleep(0.1)
+            keyboard.release(Key.media_volume_up)
+            # print("Volume increased")
+    elif query % 2 != 0:
+        query = query -1
+        
+        for i in range(query):
+            keyboard.press(Key.media_volume_up)
+            time.sleep(0.1)
+            keyboard.release(Key.media_volume_up)
+            # print("Volume increased")
+
 
 def calculate(expression):
     try:
@@ -81,27 +100,38 @@ def execute_command(command):
     elif "open notepad" in command:
         speak("Opening Notepad")
         os.system("notepad.exe")
+
     elif "open calculator" in command:
         speak("Opening Calculator")
         os.system("calc.exe")
+
     elif "search google for" in command:
         query = command.replace("search google for", "").strip()
         url = f"https://www.google.com/search?q={query}"
         speak(f"Searching Google for {query}")
         webbrowser.open(url)
+
     elif "empty recycle bin" in command:
         speak("Emptying the Recycle Bin")
         os.system("PowerShell.exe -Command Clear-RecycleBin -Confirm:$false")
+    
     elif "open vscode" in command or "open visual studio code" in command or "open vs code" in command or "vscode" in command:
         speak("Opening Visual Studio Code")
         os.system("code")
+    
     elif "open idea" in command:
         speak("Opening IntelliJ IDEA")
         os.system("start idea64")
+
+    elif "increase volume by " in command:
+        query = command.replace("increase volume by", "").strip()
+        increase_volume(query = query)
+    
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
         time.sleep(1)
         exit()
+    
     elif any(op in command for op in ["+", "-", "*", "x", "/"]):
         expression = command.replace("x", "*")
         result = calculate(expression)
@@ -109,6 +139,7 @@ def execute_command(command):
             speak(f"The answer is {result}")
         else:
             speak("Sorry, I couldn't calculate that.")
+    
     else:
         speak("Sorry, I don't understand that command.")
 
