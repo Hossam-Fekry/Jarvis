@@ -87,6 +87,18 @@ def decrease_volume(query):
     except ValueError:
         speak("Sorry, I couldn't understand the volume number.")
 
+def mute_volume():
+        keyboard.press(Key.media_volume_mute)
+        time.sleep(0.1)
+        keyboard.release(Key.media_volume_mute)
+        print("Volume muted")
+
+def unmute_volume():
+        keyboard.press(Key.media_volume_mute)
+        time.sleep(0.1)
+        keyboard.release(Key.media_volume_mute)
+        print("Volume unmuted")
+        speak("Volume unmuted")
 
 
 def calculate(expression):
@@ -154,14 +166,21 @@ def execute_command(command):
         query = command.replace("increase volume by", "").strip()
         increase_volume(query = query)
     
+    elif "decrease volume by" in command:
+        query = command.replace("decrease volume by", "").strip()
+        
+
+    elif "mute" in command or "mute audio" in command or "mute volume" in command:
+        mute_volume()
+
+    elif "unmute" in command or "unmute audio" in command or "unmute volume" in command:
+        unmute_volume()
+
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
         time.sleep(1)
         exit()
 
-    elif "decrease volume by" in command:
-        query = command.replace("decrease volume by", "").strip()
-        decrease_volume(query)
 
 
     elif any(op in command for op in ["+", "-", "*", "x", "/"]):
