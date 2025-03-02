@@ -66,6 +66,27 @@ def increase_volume(query):
     except ValueError:
         speak("Sorry, I couldn't understand the volume number.")
 
+def decrease_volume(query):
+    try:
+        query = w2n.word_to_num(query)  # Convert words to numbers
+        query = int(query)  # Ensure it's an integer
+
+        if query % 2 != 0:  # If the number is odd
+            query -= 1  # Reduce it to the nearest even number
+            speak(f"I can only decrease volume in even steps. Decreasing volume by {query}")
+
+        actual_presses = query // 2  # Adjust for 2x volume decrease per press
+
+        speak(f"Decreasing volume by {query}")
+
+        for i in range(actual_presses):
+            keyboard.press(Key.media_volume_down)
+            time.sleep(0.1)
+            keyboard.release(Key.media_volume_down)
+
+    except ValueError:
+        speak("Sorry, I couldn't understand the volume number.")
+
 
 
 def calculate(expression):
@@ -137,7 +158,12 @@ def execute_command(command):
         speak("Goodbye!")
         time.sleep(1)
         exit()
-    
+
+    elif "decrease volume by" in command:
+        query = command.replace("decrease volume by", "").strip()
+        decrease_volume(query)
+
+
     elif any(op in command for op in ["+", "-", "*", "x", "/"]):
         expression = command.replace("x", "*")
         result = calculate(expression)
