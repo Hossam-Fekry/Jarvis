@@ -7,6 +7,7 @@ import time
 import re
 import operator
 from pynput.keyboard import Controller, Key
+from word2number import w2n
 
 bot_name = None
 user_name = None
@@ -45,21 +46,26 @@ def listen():
             return None
 
 def increase_volume(query):
-    query = int(query)
-    if query % 2 == 0:
-        for i in range(query):
+    try:
+        query = w2n.word_to_num(query)  # Convert words to numbers
+        query = int(query)  # Ensure it's an integer
+
+        if query % 2 != 0:  # If the number is odd
+            query -= 1  # Reduce it to the nearest even number
+            speak(f"I can only increase volume in even steps I will increase it by {query}")
+
+        actual_presses = query // 2  # Adjust for 2x volume increase per press
+
+        speak(f"Increasing volume by {query}")
+
+        for i in range(actual_presses):
             keyboard.press(Key.media_volume_up)
             time.sleep(0.1)
             keyboard.release(Key.media_volume_up)
-            # print("Volume increased")
-    elif query % 2 != 0:
-        query = query -1
-        
-        for i in range(query):
-            keyboard.press(Key.media_volume_up)
-            time.sleep(0.1)
-            keyboard.release(Key.media_volume_up)
-            # print("Volume increased")
+
+    except ValueError:
+        speak("Sorry, I couldn't understand the volume number.")
+
 
 
 def calculate(expression):
