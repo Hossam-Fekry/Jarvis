@@ -8,6 +8,7 @@ import re
 import operator
 from pynput.keyboard import Controller, Key
 from word2number import w2n
+import psutil
 
 bot_name = None
 user_name = None
@@ -109,6 +110,24 @@ def calculate(expression):
     except Exception as e:
         return None
 
+def check_battrey():
+    battrey = psutil.sensors_battery()
+    
+    if battrey is None:
+        speak("battrey information is not available")
+        return
+    
+    battrey_level = battrey.percent
+    plugged = battrey.power_plugged
+
+    if plugged == True:
+        charghing_status = "plugged in"
+    else:
+        charghing_status = "Not Pluggd in"
+
+    speak(f"battrey level is : {battrey_level}%")
+    speak(f"charging status : {charghing_status}")
+
 def execute_command(command):
     global user_name, bot_name
     if command is None:
@@ -175,6 +194,9 @@ def execute_command(command):
 
     elif "unmute" in command or "unmute audio" in command or "unmute volume" in command:
         unmute_volume()
+
+    elif "battery" in command:
+        check_battrey()
 
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
