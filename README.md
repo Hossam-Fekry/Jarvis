@@ -30,6 +30,8 @@ Jarvis is a virtual voice assistant that can control your computer, helping prof
   - [x] Adjust volume:  
     - [x] Increase  
     - [x] Decrease  
+    - [x] Mute audio 
+    - [x] unmute audio 
 
 - **Search & Productivity**  
   - [x] Perform a Google search  
@@ -37,7 +39,6 @@ Jarvis is a virtual voice assistant that can control your computer, helping prof
 
 ### 🚀 Upcoming Features  
 - **System & Hardware Control**  
-  - [ ] Mute audio  
   - [ ] Control screen brightness  
   - [ ] Take a screenshot  
   - [ ] Check storage space  
@@ -100,4 +101,9 @@ pip install operator
 ### word2number
 ```bash
 pip install word2number
+```
+
+### psutil
+```bash
+pip instal psutil
 ```

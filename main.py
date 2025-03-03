@@ -144,26 +144,37 @@ def check_battrey():
 
 #the commands function
 
+# The commands function
 def execute_command(command):
     global user_name, bot_name
     if command is None:
         return
+
+    # Greeting the user
     if "hello" in command:
         response = f"Hello {user_name}! How can I help you?"
         speak(response)
+
+    # Responding to the assistant's name
     elif "what is your name" in command or "what's your name" in command:
         response = f"My name is {bot_name}. How can I help you, {user_name}?"
         speak(response)
+
+    # Changing the assistant's name
     elif "change your name" in command:
         speak("Ok, what is the new name?")
         new_name = listen()
         if new_name:
             bot_name = new_name
             speak(f"Ok, my new name is {bot_name}. How can I help you, {user_name}?")
+
+    # Telling the current time
     elif "time" in command:
         now = datetime.datetime.now().strftime("%I:%M %p")
         response = f"The time is {now}"
         speak(response)
+
+    # Telling the current date
     elif "date" in command:
         year = datetime.datetime.now().year
         month = datetime.datetime.now().month
@@ -171,56 +182,68 @@ def execute_command(command):
         speak(f"We are in year: {year}")
         speak(f"We are in month: {month}")
         speak(f"We are in day: {day}")
+
+    # Opening Notepad
     elif "open notepad" in command:
         speak("Opening Notepad")
         os.system("notepad.exe")
 
+    # Opening Calculator
     elif "open calculator" in command:
         speak("Opening Calculator")
         os.system("calc.exe")
 
+    # Searching Google
     elif "search google for" in command:
         query = command.replace("search google for", "").strip()
         url = f"https://www.google.com/search?q={query}"
         speak(f"Searching Google for {query}")
         webbrowser.open(url)
 
+    # Emptying the Recycle Bin
     elif "empty recycle bin" in command:
         speak("Emptying the Recycle Bin")
         os.system("PowerShell.exe -Command Clear-RecycleBin -Confirm:$false")
-    
+
+    # Opening Visual Studio Code
     elif "open vscode" in command or "open visual studio code" in command or "open vs code" in command or "vscode" in command:
         speak("Opening Visual Studio Code")
         os.system("code")
-    
+
+    # Opening IntelliJ IDEA
     elif "open idea" in command:
         speak("Opening IntelliJ IDEA")
         os.system("start idea64")
 
+    # Increasing volume
     elif "increase volume by " in command:
         query = command.replace("increase volume by", "").strip()
-        increase_volume(query = query)
-    
+        increase_volume(query=query)
+
+    # Decreasing volume
     elif "decrease volume by" in command:
         query = command.replace("decrease volume by", "").strip()
-        
+        decrease_volume(query=query)
 
+    # Muting the volume
     elif "mute" in command or "mute audio" in command or "mute volume" in command:
         mute_volume()
 
+    # Unmuting the volume
     elif "unmute" in command or "unmute audio" in command or "unmute volume" in command:
         unmute_volume()
 
+    # Checking battery status
     elif "battery" in command:
         check_battrey()
 
+    # Exiting the program
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
         time.sleep(1)
         exit()
 
-
-
+    # Performing mathematical calculations
     elif any(op in command for op in ["+", "-", "*", "x", "/"]):
         expression = command.replace("x", "*")
         result = calculate(expression)
@@ -228,7 +251,8 @@ def execute_command(command):
             speak(f"The answer is {result}")
         else:
             speak("Sorry, I couldn't calculate that.")
-    
+
+    # Handling unknown commands
     else:
         speak("Sorry, I don't understand that command.")
 
