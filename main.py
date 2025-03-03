@@ -10,6 +10,7 @@ import operator
 from pynput.keyboard import Controller, Key
 from word2number import w2n
 import psutil
+import subprocess
 
 #make the main variables
 
@@ -20,7 +21,9 @@ engine = pyttsx3.init()
 engine.setProperty('rate', 150)
 engine.setProperty('volume', 1)
 voices = engine.getProperty('voices')
-
+quran_playlist = "https://open.spotify.com/playlist/2Zi4QNF4bDwRmT1P6WMYiD?si=907d9ebb00194422"
+Motivational_songs_playlist = "https://open.spotify.com/playlist/2hV85bws0imGH4u1kAG6UU?si=d4b7fab8ecb74c46"
+is_spotify_installed = None
 #make the functions
 
 def speak(text):   #the function to make the assistant talk
@@ -142,7 +145,52 @@ def check_battrey():
     speak(f"battrey level is : {battrey_level}%")
     speak(f"charging status : {charghing_status}")
 
-#the commands function
+#the play audio function
+
+def play_audio():
+    speak("What audio do you want to listen to? Quran or motivational songs")
+    while True:
+        category = listen()
+        if category is None:
+            continue  # Ignore empty input and listen again
+
+        category = category.strip().lower()
+
+        if "quran" in category:
+            play_playlist(quran_playlist, "spotify:playlist:2Zi4QNF4bDwRmT1P6WMYiD")
+            break
+
+        elif "motivational" in category:
+            play_playlist(Motivational_songs_playlist, "spotify:playlist:2hV85bws0imGH4u1kAG6UU")
+            break
+
+        else:
+            speak("Please choose one of the available options")
+
+def play_playlist(web_url, spotify_uri):
+    speak("Do you have Spotify installed on your computer? Please answer yes or no.")
+
+    while True:
+        is_spotify_installed = listen()
+        if is_spotify_installed is None:
+            continue  # Ignore empty input and listen again
+
+        is_spotify_installed = is_spotify_installed.strip().lower()
+
+        if is_spotify_installed == "yes":
+            speak("Opening Spotify application.")
+            subprocess.Popen(["cmd", "/c", f"start {spotify_uri}"], shell=True)  # Opens in Spotify app
+            break  # Ensure only one opens
+
+        elif is_spotify_installed == "no":
+            speak("Opening in web browser.")
+            webbrowser.open(web_url)  # Opens in browser
+            break  # Ensure only one opens
+
+        else:
+            speak("Please answer with yes or no.")
+
+
 
 # The commands function
 def execute_command(command):
@@ -244,6 +292,10 @@ def execute_command(command):
     # Checking battery status
     elif "battery" in command:
         check_battrey()
+
+    #play an audio
+    elif "play an audio" in command or "play audio" in command:
+        play_audio()
 
     # Exiting the program
     elif "exit" in command or "bye" in command:
