@@ -200,6 +200,14 @@ def execute_command(command):
         speak(f"Searching Google for {query}")
         webbrowser.open(url)
 
+    #Searching youtube
+    elif "search youtube for" in command:
+        query = command.replace("search youtube for", "").strip()
+        url = f"https://www.youtube.com/results?search_query={query}"
+        speak(f"Searching YouTube for {query}")
+        webbrowser.open(url)
+
+
     # Emptying the Recycle Bin
     elif "empty recycle bin" in command:
         speak("Emptying the Recycle Bin")
