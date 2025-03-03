@@ -168,7 +168,7 @@ def play_audio():
             speak("Please choose one of the available options")
 
 def play_playlist(web_url, spotify_uri):
-    speak("Do you have Spotify installed on your computer? Please answer yes or no.")
+    speak("Do you have Spotify installed on your computer? Please answer with yes or no.")
 
     while True:
         is_spotify_installed = listen()
