@@ -1,3 +1,4 @@
+#import the modules
 import speech_recognition as sr
 import pyttsx3
 import datetime
@@ -10,20 +11,24 @@ from pynput.keyboard import Controller, Key
 from word2number import w2n
 import psutil
 
+#make the main variables
+
 bot_name = None
 user_name = None
-
 keyboard = Controller()
 engine = pyttsx3.init()
 engine.setProperty('rate', 150)
 engine.setProperty('volume', 1)
 voices = engine.getProperty('voices')
 
-def speak(text):
+#make the functions
+
+def speak(text):   #the function to make the assistant talk
     print(f"Assistant: {text}")
     engine.say(text)
     engine.runAndWait()
 
+#the function to listen to the user
 def listen():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
@@ -46,6 +51,8 @@ def listen():
             speak(response)
             return None
 
+#the increase volume function
+
 def increase_volume(query):
     try:
         query = w2n.word_to_num(query)  # Convert words to numbers
@@ -66,6 +73,8 @@ def increase_volume(query):
 
     except ValueError:
         speak("Sorry, I couldn't understand the volume number.")
+
+#the decrease volume function
 
 def decrease_volume(query):
     try:
@@ -88,6 +97,8 @@ def decrease_volume(query):
     except ValueError:
         speak("Sorry, I couldn't understand the volume number.")
 
+#the mute volume function
+
 def mute_volume():
         keyboard.press(Key.media_volume_mute)
         time.sleep(0.1)
@@ -101,6 +112,7 @@ def unmute_volume():
         print("Volume unmuted")
         speak("Volume unmuted")
 
+#the calculation function
 
 def calculate(expression):
     try:
@@ -109,6 +121,8 @@ def calculate(expression):
         return result
     except Exception as e:
         return None
+
+#the battery checker function
 
 def check_battrey():
     battrey = psutil.sensors_battery()
@@ -127,6 +141,8 @@ def check_battrey():
 
     speak(f"battrey level is : {battrey_level}%")
     speak(f"charging status : {charghing_status}")
+
+#the commands function
 
 def execute_command(command):
     global user_name, bot_name
@@ -215,6 +231,8 @@ def execute_command(command):
     
     else:
         speak("Sorry, I don't understand that command.")
+
+#the start of the application
 
 print("Welcome to our App \n")
 print("Let's setup settings \n")
