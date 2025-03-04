@@ -325,13 +325,13 @@ user_name = input("Please Enter your name: ")
 while True:
     bot_gender = input("please Chose the bot gender boy or girl(b/g): ")
     if bot_gender == "b":
-        bot_name = "Anubise"
+        bot_name = "Jarvis"
         engine.setProperty('voice', voices[0].id)
         break
 
 
     elif bot_gender == "g":
-        bot_name = "bastet"
+        bot_name = "Luna"
         engine.setProperty('voice', voices[1].id)
         
         break
