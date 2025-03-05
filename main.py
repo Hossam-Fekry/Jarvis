@@ -11,6 +11,7 @@ from pynput.keyboard import Controller, Key
 from word2number import w2n
 import psutil
 import subprocess
+import requests
 
 #make the main variables
 
@@ -24,6 +25,8 @@ voices = engine.getProperty('voices')
 quran_playlist = "https://open.spotify.com/playlist/2Zi4QNF4bDwRmT1P6WMYiD?si=907d9ebb00194422"
 Motivational_songs_playlist = "https://open.spotify.com/playlist/2hV85bws0imGH4u1kAG6UU?si=d4b7fab8ecb74c46"
 is_spotify_installed = None
+API_KEY = "60162e39da2b217fa415f9e8328572d4"
+BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 #make the functions
 
 def speak(text):   #the function to make the assistant talk
@@ -190,6 +193,25 @@ def play_playlist(web_url, spotify_uri):
         else:
             speak("Please answer with yes or no.")
 
+def get_weather(city="Cairo"):
+    try:
+        params = {
+            "q": city,
+            "appid": API_KEY,
+            "units": "metric",
+            "lang": "en"
+        }
+        response = requests.get(BASE_URL, params=params)
+        data = response.json()
+
+        if data["cod"] == 200:
+            temp = data["main"]["temp"]
+            description = data["weather"][0]["description"]
+            speak(f"The weather in {city} is {description} with a temperature of {temp} degrees Celsius.")
+        else:
+            speak("Sorry, I couldn't fetch the weather data.")
+    except Exception as e:
+        speak("An error occurred while fetching the weather data.")
 
 
 # The commands function
@@ -296,6 +318,13 @@ def execute_command(command):
     #play an audio
     elif "play an audio" in command or "play audio" in command:
         play_audio()
+
+    #get the weather in a city
+    elif "weather" in command or "forecast" in command:
+        speak("Which city's weather would you like to check?")
+        city = listen()
+        if city:
+            get_weather(city)
 
     # Exiting the program
     elif "exit" in command or "bye" in command:
