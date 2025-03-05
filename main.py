@@ -12,6 +12,7 @@ from word2number import w2n
 import psutil
 import subprocess
 import requests
+import pyautogui
 
 #make the main variables
 
@@ -27,6 +28,7 @@ Motivational_songs_playlist = "https://open.spotify.com/playlist/2hV85bws0imGH4u
 is_spotify_installed = None
 API_KEY = "60162e39da2b217fa415f9e8328572d4"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+screenshot_number = 1
 #make the functions
 
 def speak(text):   #the function to make the assistant talk
@@ -213,6 +215,14 @@ def get_weather(city="Cairo"):
     except Exception as e:
         speak("An error occurred while fetching the weather data.")
 
+def take_screenshot():
+    global screenshot_number
+    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+    screenshot_path = os.path.join(desktop, f"screenshot{screenshot_number}.png")
+    screensshot = pyautogui.screenshot()
+    screensshot.save(screenshot_path)
+    speak("Screenshot saved on your desktop.")
+    screenshot_number += 1
 
 # The commands function
 def execute_command(command):
@@ -325,6 +335,10 @@ def execute_command(command):
         city = listen()
         if city:
             get_weather(city)
+
+    #take a screenshot
+    elif "take a screenshot" in command or "screenshot" in command:
+        take_screenshot()
 
     # Exiting the program
     elif "exit" in command or "bye" in command:
