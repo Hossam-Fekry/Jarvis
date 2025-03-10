@@ -13,6 +13,7 @@ import psutil
 import subprocess
 import requests
 import pyautogui
+from playsound import playsound
 
 #make the main variables
 
@@ -224,6 +225,19 @@ def take_screenshot():
     speak("Screenshot saved on your desktop.")
     screenshot_number += 1
 
+#set an alarm function
+def wait_until(target_time):
+    """Waits until the given HH:MM time to play the sound."""
+    while True:
+        now = datetime.datetime.now().strftime("%H:%M")
+        if now == target_time:
+            print("Playing sound!")
+            playsound("alarm_sound.wav")  # Replace with your sound file
+            break
+        time.sleep(10)  # Check every 30 seconds to avoid high CPU usage 
+
+
+
 # The commands function
 def execute_command(command):
     global user_name, bot_name
@@ -340,6 +354,16 @@ def execute_command(command):
     elif "take a screenshot" in command or "screenshot" in command:
         take_screenshot()
 
+    elif "set an alarm to" in command or "set alarm to" in command:
+        query = command.replace("set an alarm to", "").replace("set alarm to", "").strip()
+        
+        # Convert the query to HH:MM format
+        try:
+            alarm_time = datetime.datetime.strptime(query, "%I %p").strftime("%H:%M")
+            speak(f"Alarm set for {alarm_time}")
+            wait_until(alarm_time)
+        except ValueError:
+            speak("Please provide the time in a correct format like '5 AM' or '10 PM'.")
     # Exiting the program
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
