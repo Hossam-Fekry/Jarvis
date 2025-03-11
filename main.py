@@ -14,6 +14,7 @@ import subprocess
 import requests
 import pyautogui
 from playsound import playsound
+import google.generativeai as genai
 
 #make the main variables
 
@@ -30,6 +31,8 @@ is_spotify_installed = None
 API_KEY = "60162e39da2b217fa415f9e8328572d4"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 screenshot_number = 1
+genai.configure(api_key="AIzaSyAukxMyWGqLILd_uHVeiZER5559WColdWw")
+model = genai.GenerativeModel("gemini-1.5-pro-latest")
 #make the functions
 
 def speak(text):   #the function to make the assistant talk
@@ -381,7 +384,9 @@ def execute_command(command):
 
     # Handling unknown commands
     else:
-        speak("Sorry, I don't understand that command.")
+        response = model.generate_content(command)
+        speak("this answer is from gemini")
+        speak(f"{response.text}")
 
 #the start of the application
 
