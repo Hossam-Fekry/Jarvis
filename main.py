@@ -236,7 +236,7 @@ def wait_until(target_time):
         now = datetime.datetime.now().strftime("%H:%M")
         if now == target_time:
             print("Playing sound!")
-            playsound("alarm_sound.wav")  # Replace with your sound file
+            playsound("sound/alarm_sound.wav")  # Replace with your sound file
             break
         time.sleep(10)  # Check every 30 seconds to avoid high CPU usage 
 
