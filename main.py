@@ -15,6 +15,7 @@ import requests
 import pyautogui
 from playsound import playsound
 import google.generativeai as genai
+import screen_brightness_control as sbc
 
 #make the main variables
 
@@ -367,6 +368,11 @@ def execute_command(command):
             wait_until(alarm_time)
         except ValueError:
             speak("Please provide the time in a correct format like '5 AM' or '10 PM'.")
+
+    elif "set brightness to " in command:
+        query = command.replace("set brightness to", "").strip()
+        sbc.set_brightness(query)
+        speak(f"Brightness set to {query}%")
     # Exiting the program
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
@@ -382,7 +388,7 @@ def execute_command(command):
         else:
             speak("Sorry, I couldn't calculate that.")
 
-    # Handling unknown commands
+    # Handling unknown commands (get answers from gemini)
     else:
         response = model.generate_content(command)
         speak("this answer is from gemini")
