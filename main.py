@@ -390,9 +390,15 @@ def execute_command(command):
 
     # Handling unknown commands (get answers from gemini)
     else:
-        response = model.generate_content(command)
-        speak("this answer is from gemini")
-        speak(f"{response.text}")
+        speak("I'm sorry, I can't understand that command.")
+        speak("do you want an answer from gemini")
+        want_answer_from_gemini = listen()
+        if want_answer_from_gemini == "yes":
+            response = model.generate_content(command)
+            speak("this answer is from gemini")
+            speak(f"{response.text}")
+        elif want_answer_from_gemini == "no":
+            speak("ok I will not get an answer from gemini")
 
 #the start of the application
 
