@@ -17,7 +17,7 @@ from playsound import playsound
 import google.generativeai as genai
 import screen_brightness_control as sbc
 
-#make the main variables
+#set the main settings
 
 bot_name = None
 user_name = None
@@ -34,6 +34,7 @@ BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 screenshot_number = 1
 genai.configure(api_key="AIzaSyAukxMyWGqLILd_uHVeiZER5559WColdWw")
 model = genai.GenerativeModel("gemini-1.5-pro-latest")
+
 #make the functions
 
 def speak(text):   #the function to make the assistant talk
@@ -155,7 +156,7 @@ def check_battrey():
     speak(f"battrey level is : {battrey_level}%")
     speak(f"charging status : {charghing_status}")
 
-#the play audio function
+#the play audio functions
 
 def play_audio():
     speak("What audio do you want to listen to? Quran or motivational songs")
@@ -200,6 +201,7 @@ def play_playlist(web_url, spotify_uri):
         else:
             speak("Please answer with yes or no.")
 
+#the weather forcast function
 def get_weather(city="Cairo"):
     try:
         params = {
@@ -220,6 +222,7 @@ def get_weather(city="Cairo"):
     except Exception as e:
         speak("An error occurred while fetching the weather data.")
 
+#the screenshot taking function
 def take_screenshot():
     global screenshot_number
     desktop = os.path.join(os.path.expanduser("~"), "Desktop")
@@ -358,6 +361,7 @@ def execute_command(command):
     elif "take a screenshot" in command or "screenshot" in command:
         take_screenshot()
 
+    #set an alarm command
     elif "set an alarm to" in command or "set alarm to" in command:
         query = command.replace("set an alarm to", "").replace("set alarm to", "").strip()
         
@@ -369,10 +373,12 @@ def execute_command(command):
         except ValueError:
             speak("Please provide the time in a correct format like '5 AM' or '10 PM'.")
 
+    #set the brightness
     elif "set brightness to " in command:
         query = command.replace("set brightness to", "").strip()
         sbc.set_brightness(query)
         speak(f"Brightness set to {query}%")
+    
     # Exiting the program
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
@@ -405,6 +411,8 @@ def execute_command(command):
 print("Welcome to our App \n")
 print("Let's setup settings \n")
 user_name = input("Please Enter your name: ")
+
+#the start of the application
 
 while True:
     bot_gender = input("please Chose the bot gender boy or girl(b/g): ")
