@@ -233,6 +233,67 @@ def take_screenshot():
     screenshot_number += 1
 
 
+#the check user_data_file function
+
+def check_content_user_data_file(line,line_number):
+    return line
+#the assistant start function
+
+def assistant_start():
+    
+    global user_name
+    global bot_name
+
+    print("Welcome to our App \n")
+    
+    #the start of the application
+    if os.path.exists("user_data_file.txt"):
+        with open("user_data_file.txt", "r") as file:
+            first_line = file.readline().strip()
+            second_line = file.readline().strip()
+        
+        user_name = check_content_user_data_file(first_line,1)
+        bot_gender = check_content_user_data_file(second_line,2)
+
+        if bot_gender == "b":
+            bot_name = "Jarvis"
+            engine.setProperty('voice', voices[0].id)
+
+        elif bot_gender == "g":
+            bot_name = "Luna"
+            engine.setProperty('voice', voices[1].id)
+
+    else:
+        print("Let's setup settings \n")
+        
+        with open("user_data_file.txt", "w") as file:
+            
+            user_name = input("Please Enter your name: ")
+            file.write(f"{user_name}\n")
+
+            while True:
+                bot_gender = input("please Chose the bot gender boy or girl(b/g): ")
+                if bot_gender == "b":
+                    bot_name = "Jarvis"
+                    engine.setProperty('voice', voices[0].id)
+                    file.write(f"{bot_gender}\n")
+                    break
+
+
+                elif bot_gender == "g":
+                    bot_name = "Luna"
+                    engine.setProperty('voice', voices[1].id)
+                    
+                    break
+
+                else:
+                    print("Invalid input. Please enter 'b' for boy or 'g' for girl.")
+
+    speak(f"Hello {user_name}! I'm your voice assistant.")
+    while True:
+        command = listen()
+        execute_command(command)
+
 # The commands function
 def execute_command(command):
     global user_name, bot_name
@@ -384,30 +445,5 @@ def execute_command(command):
 
 #the start of the application
 
-print("Welcome to our App \n")
-print("Let's setup settings \n")
-user_name = input("Please Enter your name: ")
 
-#the start of the application
-
-while True:
-    bot_gender = input("please Chose the bot gender boy or girl(b/g): ")
-    if bot_gender == "b":
-        bot_name = "Jarvis"
-        engine.setProperty('voice', voices[0].id)
-        break
-
-
-    elif bot_gender == "g":
-        bot_name = "Luna"
-        engine.setProperty('voice', voices[1].id)
-        
-        break
-
-    else:
-        print("Invalid input. Please enter 'b' for boy or 'g' for girl.")
-
-speak(f"Hello {user_name}! I'm your voice assistant.")
-while True:
-    command = listen()
-    execute_command(command)
+assistant_start()
