@@ -29,8 +29,8 @@ voices = engine.getProperty('voices')
 quran_playlist = "https://open.spotify.com/playlist/2Zi4QNF4bDwRmT1P6WMYiD?si=907d9ebb00194422"
 Motivational_songs_playlist = "https://open.spotify.com/playlist/2hV85bws0imGH4u1kAG6UU?si=d4b7fab8ecb74c46"
 is_spotify_installed = None
-API_KEY = "60162e39da2b217fa415f9e8328572d4"
-BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+Weather_API_KEY = "60162e39da2b217fa415f9e8328572d4"
+Weather_BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 screenshot_number = 1
 genai.configure(api_key="AIzaSyAukxMyWGqLILd_uHVeiZER5559WColdWw")
 model = genai.GenerativeModel("gemini-1.5-pro-latest")
@@ -206,11 +206,11 @@ def get_weather(city="Cairo"):
     try:
         params = {
             "q": city,
-            "appid": API_KEY,
+            "appid": Weather_API_KEY,
             "units": "metric",
             "lang": "en"
         }
-        response = requests.get(BASE_URL, params=params)
+        response = requests.get(Weather_BASE_URL, params=params)
         data = response.json()
 
         if data["cod"] == 200:
