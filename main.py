@@ -416,6 +416,15 @@ def execute_command(command):
         sbc.set_brightness(query)
         speak(f"Brightness set to {query}%")
     
+    #asking gemini
+    elif "gemini" in command:
+        speak("OK, say your question for gemini")
+        gemini_c = listen()
+        response = model.generate_content(gemini_c)
+        speak("this answer is from gemini")
+        speak(response.text)
+        
+    
     # Exiting the program
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
@@ -439,7 +448,7 @@ def execute_command(command):
         if want_answer_from_gemini == "yes":
             response = model.generate_content(command)
             speak("this answer is from gemini")
-            speak(f"{response.text}")
+            speak(response.text)
         elif want_answer_from_gemini == "no":
             speak("ok I will not get an answer from gemini")
 
