@@ -16,6 +16,7 @@ import pyautogui
 from playsound import playsound
 import google.generativeai as genai
 import screen_brightness_control as sbc
+import keyboard
 
 #set the main settings
 
@@ -398,6 +399,15 @@ def execute_command(command):
     #play an audio
     elif "play an audio" in command or "play audio" in command:
         play_audio()
+
+    elif "pause" in command or "play" in command:
+        keyboard.press_and_release("play/pause media")
+
+    elif "next track" in command:
+        keyboard.press_and_release("next track")
+
+    elif "previous track" in command:
+        keyboard.press_and_release("previous track")
 
     #get the weather in a city
     elif "weather" in command or "forecast" in command:
