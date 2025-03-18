@@ -350,7 +350,7 @@ def execute_command(command):
         new_name = listen()
         if new_name:
             bot_name = new_name
-            speak(f"Ok, my new name is {bot_name}. How can I help you, {user_name}?")
+            speak(f"Ok, my new name is {bot_name}, How can I help you, {user_name}?")
 
     # Telling the current time
     elif "time" in command:
@@ -459,11 +459,11 @@ def execute_command(command):
         sbc.set_brightness(query)
         speak(f"Brightness set to {query}%")
     
-    elif "open browser" in command or "open defaultm browser" in command:
+    elif "open browser" in command or "open default browser" in command:
         browser_name = get_default_browser_name()
         os.startfile(f"{browser_name}.exe")
 
-    elif "close browser" in command or "close default browser" in command():
+    elif "close browser" in command or "close default browser" in command:
         browser_name = f"{get_default_browser_name()}.exe"
         close_program(browser_name)
 
