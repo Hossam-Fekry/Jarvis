@@ -17,6 +17,7 @@ from playsound import playsound
 import google.generativeai as genai
 import screen_brightness_control as sbc
 import keyboard
+import winreg
 
 #set the main settings
 
@@ -295,6 +296,38 @@ def assistant_start():
         command = listen()
         execute_command(command)
 
+def get_default_browser_name():
+    try:
+        # Open registry key for HTTP protocol
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice") as key:
+            browser_prog_id, _ = winreg.QueryValueEx(key, "ProgId")
+
+        # Mapping common ProgId values to actual browser names
+        browser_map = {
+            "ChromeHTML": "Chrome",
+            "MSEdgeHTM": "Edge",
+            "FirefoxURL": "Firefox",
+            "OperaStable": "Opera",
+            "BraveHTML": "Brave"
+        }
+
+        # Get browser name from mapping or return the raw ProgId if unknown
+        return browser_map.get(browser_prog_id, browser_prog_id)
+    
+    except Exception:
+        return "Unknown"
+
+def close_program(program_name):
+    """Find and terminate all processes matching the given program name."""
+    for process in psutil.process_iter(attrs=['pid', 'name']):
+        try:
+            if process.info['name'].lower() == program_name.lower():
+                print(f"Closing {program_name} (PID: {process.info['pid']})")
+                process.kill()  # Forcefully terminate the process
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+
+
 # The commands function
 def execute_command(command):
     global user_name, bot_name
@@ -426,6 +459,15 @@ def execute_command(command):
         sbc.set_brightness(query)
         speak(f"Brightness set to {query}%")
     
+    elif "open browser" in command or "open defaultm browser" in command:
+        browser_name = get_default_browser_name()
+        os.startfile(f"{browser_name}.exe")
+
+    elif "close browser" in command or "close default browser" in command():
+        browser_name = f"{get_default_browser_name()}.exe"
+        close_program(browser_name)
+
+
     #asking gemini
     elif "gemini" in command:
         speak("OK, say your question for gemini")
