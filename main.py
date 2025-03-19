@@ -16,7 +16,7 @@ import pyautogui
 from playsound import playsound
 import google.generativeai as genai
 import screen_brightness_control as sbc
-import keyboard
+import keyboard as k
 import winreg
 
 #set the main settings
@@ -476,7 +476,13 @@ def execute_command(command):
         speak("this answer is from gemini")
         speak(response.text)
         
-    
+    elif "type " in command:
+        text = command.replace("type", "").strip()
+        for char in text:
+            k.write(char)
+            time.sleep(0.05)
+        k.write(" ")
+
     # Exiting the program
     elif "exit" in command or "bye" in command:
         speak("Goodbye!")
