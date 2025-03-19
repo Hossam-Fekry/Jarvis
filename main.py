@@ -6,14 +6,12 @@ import webbrowser
 import os
 import time
 import re
-import operator
 from pynput.keyboard import Controller, Key
 from word2number import w2n
 import psutil
 import subprocess
 import requests
 import pyautogui
-from playsound import playsound
 import google.generativeai as genai
 import screen_brightness_control as sbc
 import keyboard as k
