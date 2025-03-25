@@ -16,6 +16,7 @@ import google.generativeai as genai
 import screen_brightness_control as sbc
 import keyboard as k
 import winreg
+from googlesearch import search
 
 #set the main settings
 
@@ -325,7 +326,34 @@ def close_program(program_name):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
 
+import webbrowser
+from googlesearch import search
 
+def search_google(topic):
+    query = topic
+
+    try:
+        speak(f"Search results for {query} :-")
+        print("\n")
+        results = list(search(query, num_results=2))  # Fetching top 2 results
+
+        if results:
+            # Check if the first result is a valid URL
+            first_result = results[0]
+            if first_result.startswith("http://") or first_result.startswith("https://"):
+                speak("Opening the first result...")
+                webbrowser.open(first_result)  # Use webbrowser to open the URL
+            else:
+                speak("The first result is not a valid URL. Trying the second result...")
+                if len(results) > 1 and (results[1].startswith("http://") or results[1].startswith("https://")):
+                    webbrowser.open(results[1])  # Open the second result if valid
+                else:
+                    speak("No valid URLs found in the search results.")
+        else:
+            speak("No results found.")
+
+    except Exception as e:
+        speak(f"An error occurred: {str(e)}")  # Concatenate the error message
 # The commands function
 def execute_command(command):
     global user_name, bot_name
@@ -374,13 +402,6 @@ def execute_command(command):
     elif "open calculator" in command:
         speak("Opening Calculator")
         os.system("calc.exe")
-
-    # Searching Google
-    elif "search google for" in command:
-        query = command.replace("search google for", "").strip()
-        url = f"https://www.google.com/search?q={query}"
-        speak(f"Searching Google for {query}")
-        webbrowser.open(url)
 
     #Searching youtube
     elif "search youtube for" in command:
@@ -480,6 +501,10 @@ def execute_command(command):
             k.write(char)
             time.sleep(0.05)
         k.write(" ")
+
+    elif "search about " in command:
+        topic = command.replace("search about ", "").strip()
+        search_google(topic)
 
     # Exiting the program
     elif "exit" in command or "bye" in command:
