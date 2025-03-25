@@ -457,7 +457,7 @@ def execute_command(command):
         sbc.set_brightness(query)
         speak(f"Brightness set to {query}%")
     
-    elif "open browser" in command or "open default browser" in command:
+    elif "open browser" in command or "open default browser" in command or "browser" in command:
         browser_name = get_default_browser_name()
         os.startfile(f"{browser_name}.exe")
 
@@ -506,7 +506,7 @@ def execute_command(command):
             speak("this answer is from gemini")
             speak(response.text)
         elif want_answer_from_gemini == "no":
-            speak("ok I will not get an answer from gemini")
+            speak("OK, I will not get an answer from gemini")
 
 #the start of the application
 
