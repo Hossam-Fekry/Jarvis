@@ -478,7 +478,7 @@ def execute_command(command):
         sbc.set_brightness(query)
         speak(f"Brightness set to {query}%")
     
-    elif "open browser" in command or "open default browser" in command or "browser" in command:
+    elif "open browser" in command or "open default browser" in command:
         browser_name = get_default_browser_name()
         os.startfile(f"{browser_name}.exe")
 
