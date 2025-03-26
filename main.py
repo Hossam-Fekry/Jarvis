@@ -431,13 +431,13 @@ def execute_command(command):
         play_audio()
 
     elif "pause" in command or "play" in command:
-        keyboard.press_and_release("play/pause media")
+        k.press_and_release("play/pause media")
 
     elif "next track" in command:
-        keyboard.press_and_release("next track")
+        k.press_and_release("next track")
 
     elif "previous track" in command:
-        keyboard.press_and_release("previous track")
+        k.press_and_release("previous track")
 
     #get the weather in a city
     elif "weather" in command or "forecast" in command:
