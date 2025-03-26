@@ -1,0 +1,18 @@
+1. "Hello" or "Hi" → The assistant greets you.
+2. "What is your name?" → The assistant tells you its name.
+3. "Change your name" → Allows you to rename the assistant.
+4. "What time is it?" → Tells you the current time.
+5. "What’s today’s date?" → Tells you today’s date.
+6. "Increase volume to [number]" → Raises the volume by a specified amount (preferably even numbers).
+7. "Decrease volume to [number]" → Lowers the volume by a specified amount.
+8. "Mute" → Mutes the sound.
+9. "Unmute" → Restores the sound.
+10. "Search Google for [keyword]" → Searches Google and shows results.
+11. "Search YouTube for [topic]" → Searches YouTube for the topic.
+12. "Check the weather in [city]" → Gets the weather forecast for the city.
+13. "Play Quran" → Plays a Quran playlist on Spotify.
+14. "Play motivational songs" → Plays a motivational playlist.
+15. "Check battery status" → Tells you the battery level and charging status.
+16. "Take a screenshot" → Captures the screen and saves it to the desktop.
+17. "Empty Recycle Bin" → Deletes all files in the Recycle Bin.
+18. "Close [app name]" → Closes a specific program.

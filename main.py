@@ -393,16 +393,6 @@ def execute_command(command):
         speak(f"We are in month: {month}")
         speak(f"We are in day: {day}")
 
-    # Opening Notepad
-    elif "open notepad" in command:
-        speak("Opening Notepad")
-        os.system("notepad.exe")
-
-    # Opening Calculator
-    elif "open calculator" in command:
-        speak("Opening Calculator")
-        os.system("calc.exe")
-
     #Searching youtube
     elif "search youtube for" in command:
         query = command.replace("search youtube for", "").strip()
@@ -415,17 +405,7 @@ def execute_command(command):
     elif "empty recycle bin" in command:
         speak("Emptying the Recycle Bin")
         os.system("PowerShell.exe -Command Clear-RecycleBin -Confirm:$false")
-
-    # Opening Visual Studio Code
-    elif "open vscode" in command or "open visual studio code" in command or "open vs code" in command or "vscode" in command:
-        speak("Opening Visual Studio Code")
-        os.system("code")
-
-    # Opening IntelliJ IDEA
-    elif "open idea" in command:
-        speak("Opening IntelliJ IDEA")
-        os.system("start idea64")
-
+        
     # Increasing volume
     elif "increase volume by " in command:
         query = command.replace("increase volume by", "").strip()
