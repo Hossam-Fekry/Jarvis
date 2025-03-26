@@ -326,8 +326,6 @@ def close_program(program_name):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
 
-import webbrowser
-from googlesearch import search
 
 def search_google(topic):
     query = topic
@@ -465,6 +463,9 @@ def execute_command(command):
     elif "close browser" in command or "close default browser" in command:
         browser_name = f"{get_default_browser_name()}.exe"
         close_program(browser_name)
+
+    elif "close this app" in command or "close activated app" in command or "close activated program" in command or "close activated" in command:
+        pyautogui.hotkey('alt', 'f4')
 
 
     #asking gemini
