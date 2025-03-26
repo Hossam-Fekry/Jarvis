@@ -354,7 +354,7 @@ def search_google(topic):
         speak(f"An error occurred: {str(e)}")  # Concatenate the error message
 # The commands function
 def execute_command(command):
-    global user_name, bot_name
+    global user_name, bot_name, bot_gender
     if command is None:
         return
 
@@ -366,6 +366,10 @@ def execute_command(command):
     # Responding to the assistant's name
     elif "what is your name" in command or "what's your name" in command:
         response = f"My name is {bot_name}. How can I help you, {user_name}?"
+        speak(response)
+
+    elif "what's your gender" in command or "what is your gender" in command:
+        response = f"My gender is {bot_gender}. How can I help you, {user_name}?"
         speak(response)
 
     # Changing the assistant's name
